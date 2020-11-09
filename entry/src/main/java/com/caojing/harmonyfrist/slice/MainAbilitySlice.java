@@ -20,6 +20,9 @@ public class MainAbilitySlice extends AbilitySlice {
 
     private DirectionalLayout myLayout = new DirectionalLayout(this);
 
+    private int score=0;
+    private Text textView;
+
     @Override
     public void onStart(Intent intent) {
         super.onStart(intent);
@@ -31,12 +34,12 @@ public class MainAbilitySlice extends AbilitySlice {
         element.setRgbColor(new RgbColor(255, 255, 255));
         myLayout.setBackground(element);
         LayoutConfig configBtn=new LayoutConfig(LayoutConfig.MATCH_CONTENT,LayoutConfig.MATCH_CONTENT);
-//        Text text = new Text(this);
-//        text.setLayoutConfig(configBtn);
-//        text.setText("Hello World");
-//        text.setTextColor(new Color(0xFF000000));
-//        text.setTextSize(50);
-//        myLayout.addComponent(text);
+        textView = new Text(this);
+        textView.setLayoutConfig(configBtn);
+        textView.setText("分数");
+        textView.setTextColor(new Color(0xFF000000));
+        textView.setTextSize(50);
+        myLayout.addComponent(textView);
         Button button=new Button(this);
         button.setLayoutConfig(configBtn);
         button.setText("重新开始");
@@ -58,6 +61,20 @@ public class MainAbilitySlice extends AbilitySlice {
         });
         super.setUIContent(myLayout);
 
+    }
+
+    public void clearScore(){
+        score=0;
+        showScore();
+    }
+
+    public void showScore(){
+        textView.setText(score+"");
+    }
+
+    public void addScore(int score){
+        this.score+=score;
+        showScore();
     }
 
     @Override

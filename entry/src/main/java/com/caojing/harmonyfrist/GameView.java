@@ -1,11 +1,13 @@
 package com.caojing.harmonyfrist;
 
+import com.caojing.harmonyfrist.slice.MainAbilitySlice;
 import ohos.agp.colors.RgbColor;
 import ohos.agp.components.AttrSet;
 import ohos.agp.components.Component;
 import ohos.agp.components.DragInfo;
 import ohos.agp.components.TableLayout;
 import ohos.agp.components.element.ShapeElement;
+import ohos.agp.window.dialog.ToastDialog;
 import ohos.app.Context;
 import ohos.multimodalinput.event.MmiPoint;
 import ohos.multimodalinput.event.TouchEvent;
@@ -14,7 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameView extends TableLayout {
+    MainAbilitySlice mainAbilitySlice;
 
+    private CardView[][] cardMap = new CardView[4][4];
+    private List<MPoint> emptyPoints = new ArrayList<>();
 
     public GameView(Context context) {
         super(context);
@@ -32,6 +37,8 @@ public class GameView extends TableLayout {
     }
 
     void initGameView() {
+        mainAbilitySlice = ((MainAbilitySlice) getContext());
+
         setColumnCount(4);
         ShapeElement element = new ShapeElement();
         element.setRgbColor(new RgbColor(185, 176, 160));
@@ -39,7 +46,6 @@ public class GameView extends TableLayout {
         setPadding(0, 0, 10, 10);
         addCards();
         startGame();
-
 
         setTouchEventListener(new TouchEventListener() {
             private float starX, starY, offsetX, offsetY;
@@ -101,6 +107,7 @@ public class GameView extends TableLayout {
      * 开始游戏
      */
     public void startGame() {
+        mainAbilitySlice.clearScore();
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 cardMap[x][y].setNum(0);
@@ -126,6 +133,7 @@ public class GameView extends TableLayout {
         }
         MPoint point = emptyPoints.remove((int) (Math.random() * emptyPoints.size()));
         cardMap[point.getX()][point.getY()].setNum(Math.random() > 0.1 ? 2 : 4);
+        gameOver();
     }
 
     private void swipeLeft() {
@@ -147,6 +155,7 @@ public class GameView extends TableLayout {
                             cardMap[x][y].setNum(cardMap[x][y].getNum() * 2);
                             cardMap[x1][y].setNum(0);
                             isMerge = true;
+                            mainAbilitySlice.addScore(cardMap[x][y].getNum());
                         }
                         break;
                     }
@@ -175,6 +184,7 @@ public class GameView extends TableLayout {
                             cardMap[x][y].setNum(cardMap[x][y].getNum() * 2);
                             cardMap[x1][y].setNum(0);
                             isMerge = true;
+                            mainAbilitySlice.addScore(cardMap[x][y].getNum());
                         }
                         break;
                     }
@@ -203,6 +213,7 @@ public class GameView extends TableLayout {
                             cardMap[x][y].setNum(cardMap[x][y].getNum() * 2);
                             cardMap[x][y1].setNum(0);
                             isMerge = true;
+                            mainAbilitySlice.addScore(cardMap[x][y].getNum());
                         }
                         break;
                     }
@@ -213,7 +224,7 @@ public class GameView extends TableLayout {
     }
 
     private void swipeDown() {
-        boolean isMerge=false;
+        boolean isMerge = false;
         //向下滑动
         for (int x = 0; x < 4; x++) {
             for (int y = 3; y >= 0; y--) {
@@ -225,12 +236,13 @@ public class GameView extends TableLayout {
                             cardMap[x][y].setNum(cardMap[x][y1].getNum());
                             cardMap[x][y1].setNum(0);
                             y++;
-                            isMerge=true;
+                            isMerge = true;
                         } else if (cardMap[x][y].equals(cardMap[x][y1])) {
                             //如果有右边的数字和左边的数字相等，则进行合并
                             cardMap[x][y].setNum(cardMap[x][y].getNum() * 2);
                             cardMap[x][y1].setNum(0);
-                            isMerge=true;
+                            isMerge = true;
+                            mainAbilitySlice.addScore(cardMap[x][y].getNum());
                         }
                         break;
                     }
@@ -240,6 +252,28 @@ public class GameView extends TableLayout {
         if (isMerge) addRoundNum();
     }
 
-    private CardView[][] cardMap = new CardView[4][4];
-    private List<MPoint> emptyPoints = new ArrayList<>();
+    /**
+     * 游戏结束
+     * 如果有cardMap里面有值为0即还有空格，或者当前格上下左右有相等的数字，则游戏继续
+     * 否则游戏结束
+     */
+    private void gameOver() {
+        boolean isOver=true;
+        ALL:
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                if (cardMap[x][y].getNum() == 0 ||
+                        (x > 0 && cardMap[x][y].equals(cardMap[x - 1][y])) ||
+                        (x < 3 && cardMap[x][y].equals(cardMap[x + 1][y])) ||
+                        (y > 0 && cardMap[x][y].equals(cardMap[x][y - 1])) ||
+                        (y < 3 && cardMap[x][y].equals(cardMap[x][y + 1]))) {
+                    isOver=false;
+                    break ALL;
+                }
+            }
+        }
+        if (isOver){
+            //游戏结束
+        }
+    }
 }
