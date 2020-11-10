@@ -6,8 +6,11 @@ import ohos.agp.components.AttrSet;
 import ohos.agp.components.StackLayout;
 import ohos.agp.components.Text;
 import ohos.agp.components.element.ShapeElement;
+import ohos.agp.utils.Color;
 import ohos.agp.utils.TextAlignment;
 import ohos.app.Context;
+
+import java.util.Random;
 
 public class CardView extends StackLayout {
     private int num = 0;
@@ -43,6 +46,60 @@ public class CardView extends StackLayout {
         setNum(0);
     }
 
+    void setTextColor(int num){
+        ShapeElement element = new ShapeElement();
+       switch (num){
+           case 0:
+               element.setRgbColor(new RgbColor(198, 187, 183));
+               break;
+           case 2:
+               lable.setTextColor(Color.RED);
+               element.setRgbColor(new RgbColor(100, 187, 183));
+               break;
+           case 4:
+               lable.setTextColor(Color.BLACK);
+               element.setRgbColor(new RgbColor(100, 100, 183));
+               break;
+           case 8:
+               lable.setTextColor(Color.BLUE);
+               element.setRgbColor(new RgbColor(100, 100, 100));
+               break;
+           case 16:
+               lable.setTextColor(Color.CYAN);
+               element.setRgbColor(new RgbColor(150, 150, 150));
+               break;
+           case 32:
+               lable.setTextColor(Color.DKGRAY);
+               element.setRgbColor(new RgbColor(200, 150, 150));
+               break;
+           case 64:
+               lable.setTextColor(Color.GRAY);
+               element.setRgbColor(new RgbColor(200, 200, 150));
+               break;
+           case 128:
+               lable.setTextColor(Color.GREEN);
+               element.setRgbColor(new RgbColor(200, 200, 200));
+               break;
+           case 256:
+               lable.setTextColor(Color.LTGRAY);
+               element.setRgbColor(new RgbColor(250, 200, 200));
+               break;
+           case 512:
+               lable.setTextColor(Color.WHITE);
+               element.setRgbColor(new RgbColor(250, 250, 200));
+               break;
+           case 1024:
+               lable.setTextColor(Color.YELLOW);
+               element.setRgbColor(new RgbColor(250, 250, 250));
+               break;
+           case 2048:
+               lable.setTextColor(Color.RED);
+               element.setRgbColor(new RgbColor(100, 250, 250));
+               break;
+       }
+
+        lable.setBackground(element);
+    }
 
     public int getNum() {
         return num;
@@ -56,6 +113,7 @@ public class CardView extends StackLayout {
         }else{
             lable.setText(num + "");
         }
+        setTextColor(num);
     }
 
     /**

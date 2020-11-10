@@ -40,17 +40,18 @@ public class MainAbilitySlice extends AbilitySlice {
         textView.setTextColor(new Color(0xFF000000));
         textView.setTextSize(50);
         myLayout.addComponent(textView);
-        Button button=new Button(this);
-        button.setLayoutConfig(configBtn);
-        button.setText("重新开始");
-        button.setTextSize(50);
-        myLayout.addComponent(button);
+
         LayoutConfig configBgv=new LayoutConfig(LayoutConfig.MATCH_CONTENT,LayoutConfig.MATCH_CONTENT);
         GameView gameView=new GameView(this);
         config.alignment=LayoutAlignment.CENTER;
         gameView.setLayoutConfig(configBgv);
         gameView.setAlignmentMode(LayoutAlignment.CENTER);
         myLayout.addComponent(gameView);
+        Button button=new Button(this);
+        button.setLayoutConfig(configBtn);
+        button.setText("重新开始");
+        button.setTextSize(50);
+        myLayout.addComponent(button);
 
         button.setClickedListener(new Component.ClickedListener() {
             @Override
