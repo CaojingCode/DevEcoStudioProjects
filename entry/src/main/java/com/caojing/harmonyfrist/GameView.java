@@ -9,6 +9,8 @@ import ohos.agp.components.TableLayout;
 import ohos.agp.components.element.ShapeElement;
 import ohos.agp.window.dialog.ToastDialog;
 import ohos.app.Context;
+import ohos.data.DatabaseHelper;
+import ohos.data.preferences.Preferences;
 import ohos.multimodalinput.event.MmiPoint;
 import ohos.multimodalinput.event.TouchEvent;
 
@@ -131,8 +133,11 @@ public class GameView extends TableLayout {
                 }
             }
         }
-        MPoint point = emptyPoints.remove((int) (Math.random() * emptyPoints.size()));
-        cardMap[point.getX()][point.getY()].setNum(Math.random() > 0.1 ? 2 : 4);
+        if (emptyPoints.size() > 0) {
+            MPoint point = emptyPoints.remove((int) (Math.random() * emptyPoints.size()));
+            cardMap[point.getX()][point.getY()].setNum(Math.random() > 0.1 ? 2 : 4);
+//            mainAbilitySlice.getAnimLayer().createScaleTo1(cardMap[point.getX()][point.getY()]);
+        }
         gameOver();
     }
 
@@ -146,12 +151,15 @@ public class GameView extends TableLayout {
                     if (cardMap[x1][y].getNum() > 0) {
                         //如果最左边没有数字时，则将右边数字移动到左边
                         if (cardMap[x][y].getNum() <= 0) {
+//                            mainAbilitySlice.getAnimLayer().createMoveAnim(cardMap[x1][y], cardMap[x][y], x1, x, y, y);
+
                             cardMap[x][y].setNum(cardMap[x1][y].getNum());
                             cardMap[x1][y].setNum(0);
                             x--;
                             isMerge = true;
                         } else if (cardMap[x][y].equals(cardMap[x1][y])) {
                             //如果有右边的数字和左边的数字相等，则进行合并
+//                            mainAbilitySlice.getAnimLayer().createMoveAnim(cardMap[x1][y], cardMap[x][y], x1, x, y, y);
                             cardMap[x][y].setNum(cardMap[x][y].getNum() * 2);
                             cardMap[x1][y].setNum(0);
                             isMerge = true;
@@ -175,12 +183,14 @@ public class GameView extends TableLayout {
                     if (cardMap[x1][y].getNum() > 0) {
                         //如果最左边没有数字时，则将右边数字移动到左边
                         if (cardMap[x][y].getNum() <= 0) {
+//                            mainAbilitySlice.getAnimLayer().createMoveAnim(cardMap[x1][y], cardMap[x][y], x1, x, y, y);
                             cardMap[x][y].setNum(cardMap[x1][y].getNum());
                             cardMap[x1][y].setNum(0);
                             x++;
                             isMerge = true;
                         } else if (cardMap[x][y].equals(cardMap[x1][y])) {
                             //如果有右边的数字和左边的数字相等，则进行合并
+//                            mainAbilitySlice.getAnimLayer().createMoveAnim(cardMap[x1][y], cardMap[x][y], x1, x, y, y);
                             cardMap[x][y].setNum(cardMap[x][y].getNum() * 2);
                             cardMap[x1][y].setNum(0);
                             isMerge = true;
@@ -204,12 +214,14 @@ public class GameView extends TableLayout {
                     if (cardMap[x][y1].getNum() > 0) {
                         //如果最左边没有数字时，则将右边数字移动到左边
                         if (cardMap[x][y].getNum() <= 0) {
+//                            mainAbilitySlice.getAnimLayer().createMoveAnim(cardMap[x][y1], cardMap[x][y], x, x, y1, y);
                             cardMap[x][y].setNum(cardMap[x][y1].getNum());
                             cardMap[x][y1].setNum(0);
                             y--;
                             isMerge = true;
                         } else if (cardMap[x][y].equals(cardMap[x][y1])) {
                             //如果有右边的数字和左边的数字相等，则进行合并
+//                            mainAbilitySlice.getAnimLayer().createMoveAnim(cardMap[x][y1], cardMap[x][y], x, x, y1, y);
                             cardMap[x][y].setNum(cardMap[x][y].getNum() * 2);
                             cardMap[x][y1].setNum(0);
                             isMerge = true;
@@ -233,12 +245,14 @@ public class GameView extends TableLayout {
                     if (cardMap[x][y1].getNum() > 0) {
                         //如果最左边没有数字时，则将右边数字移动到左边
                         if (cardMap[x][y].getNum() <= 0) {
+//                            mainAbilitySlice.getAnimLayer().createMoveAnim(cardMap[x][y1], cardMap[x][y], x, x, y1, y);
                             cardMap[x][y].setNum(cardMap[x][y1].getNum());
                             cardMap[x][y1].setNum(0);
                             y++;
                             isMerge = true;
                         } else if (cardMap[x][y].equals(cardMap[x][y1])) {
                             //如果有右边的数字和左边的数字相等，则进行合并
+//                            mainAbilitySlice.getAnimLayer().createMoveAnim(cardMap[x][y1], cardMap[x][y], x, x, y1, y);
                             cardMap[x][y].setNum(cardMap[x][y].getNum() * 2);
                             cardMap[x][y1].setNum(0);
                             isMerge = true;
@@ -258,8 +272,9 @@ public class GameView extends TableLayout {
      * 否则游戏结束
      */
     private void gameOver() {
-        boolean isOver=true;
+        boolean isOver = true;
         ALL:
+
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 if (cardMap[x][y].getNum() == 0 ||
@@ -267,13 +282,27 @@ public class GameView extends TableLayout {
                         (x < 3 && cardMap[x][y].equals(cardMap[x + 1][y])) ||
                         (y > 0 && cardMap[x][y].equals(cardMap[x][y - 1])) ||
                         (y < 3 && cardMap[x][y].equals(cardMap[x][y + 1]))) {
-                    isOver=false;
+                    isOver = false;
                     break ALL;
                 }
             }
         }
-        if (isOver){
-            //游戏结束
+        if (isOver) {
+            //游戏结束,保存总分
+
+            DatabaseHelper databaseHelper = new DatabaseHelper(mainAbilitySlice); // context入参类型为ohos.app.Context。
+            String fileName = "game"; // fileName表示文件名，其取值不能为空，也不能包含路径，默认存储目录可以通过context.getPreferencesDir()获取。
+            Preferences preferences = databaseHelper.getPreferences(fileName);
+            int totalScore = preferences.getInt("totalScore", 0);//保存的总分
+            if (totalScore<mainAbilitySlice.getScore()){
+                //如果保存的总分小于单前总分，那么就保存大当前总分
+                preferences.putInt("totalScore", mainAbilitySlice.getScore());
+                preferences.flush();
+            }
+
+            //设置最高分
+            mainAbilitySlice.showTotalScore(preferences.getInt("totalScore", 0));
         }
+
     }
 }
