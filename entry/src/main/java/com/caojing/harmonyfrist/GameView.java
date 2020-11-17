@@ -11,6 +11,7 @@ import ohos.agp.window.dialog.ToastDialog;
 import ohos.app.Context;
 import ohos.data.DatabaseHelper;
 import ohos.data.preferences.Preferences;
+import ohos.media.audio.SoundPlayer;
 import ohos.multimodalinput.event.MmiPoint;
 import ohos.multimodalinput.event.TouchEvent;
 
@@ -19,9 +20,16 @@ import java.util.List;
 
 public class GameView extends TableLayout {
     MainAbilitySlice mainAbilitySlice;
+    boolean isCanRetract = false;
 
     private CardView[][] cardMap = new CardView[4][4];
+    private int[][] retractMap = new int[4][4];
+
     private List<MPoint> emptyPoints = new ArrayList<>();
+
+    private int score = 0;
+    float volume = 1.0f; //音频音量
+
 
     public GameView(Context context) {
         super(context);
@@ -37,6 +45,18 @@ public class GameView extends TableLayout {
         super(context, attrSet, styleName);
         initGameView();
     }
+
+    // 音频播放实例化对象
+    SoundPlayer soundPlayer = new SoundPlayer("com.caojing.harmonyfrist");
+
+    /**
+     * 播放声音
+     */
+    public void playSound() {
+        // 播放键盘敲击音，音量为1.0
+        soundPlayer.playSound(SoundPlayer.SoundType.KEY_CLICK, volume);
+    }
+
 
     void initGameView() {
         mainAbilitySlice = ((MainAbilitySlice) getContext());
@@ -142,6 +162,7 @@ public class GameView extends TableLayout {
     }
 
     private void swipeLeft() {
+        retractMap();
         boolean isMerge = false;
         //向左边滑动
         for (int y = 0; y < 4; y++) {
@@ -174,6 +195,7 @@ public class GameView extends TableLayout {
     }
 
     private void swipeRight() {
+        retractMap();
         //向右滑动
         boolean isMerge = false;
         for (int y = 0; y < 4; y++) {
@@ -205,6 +227,7 @@ public class GameView extends TableLayout {
     }
 
     private void swipeUp() {
+        retractMap();
         boolean isMerge = false;
         //向上滑动
         for (int x = 0; x < 4; x++) {
@@ -236,6 +259,7 @@ public class GameView extends TableLayout {
     }
 
     private void swipeDown() {
+        retractMap();
         boolean isMerge = false;
         //向下滑动
         for (int x = 0; x < 4; x++) {
@@ -266,6 +290,39 @@ public class GameView extends TableLayout {
         if (isMerge) addRoundNum();
     }
 
+
+    /**
+     * 记录悔棋的二维数组
+     */
+    private void retractMap() {
+        //是否可以悔棋，滑动后则可以开始悔棋
+        isCanRetract = true;
+        score = mainAbilitySlice.getScore();
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                retractMap[x][y] = cardMap[x][y].getNum();
+            }
+        }
+
+        playSound();
+    }
+
+    /**
+     * 执行悔棋操作
+     */
+    public void retractGame() {
+        //如果没有滑动则不能悔棋。
+        if (!isCanRetract)
+            return;
+        mainAbilitySlice.showScore(score);
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                cardMap[x][y].setNum(retractMap[x][y]);
+            }
+        }
+    }
+
+
     /**
      * 游戏结束
      * 如果有cardMap里面有值为0即还有空格，或者当前格上下左右有相等的数字，则游戏继续
@@ -294,12 +351,13 @@ public class GameView extends TableLayout {
             String fileName = "game"; // fileName表示文件名，其取值不能为空，也不能包含路径，默认存储目录可以通过context.getPreferencesDir()获取。
             Preferences preferences = databaseHelper.getPreferences(fileName);
             int totalScore = preferences.getInt("totalScore", 0);//保存的总分
-            if (totalScore<mainAbilitySlice.getScore()){
-                //如果保存的总分小于单前总分，那么就保存大当前总分
+            if (totalScore < mainAbilitySlice.getScore()) {
+                //如果保存的总分小于当前总分，那么就保存大当前总分
                 preferences.putInt("totalScore", mainAbilitySlice.getScore());
                 preferences.flush();
             }
 
+            mainAbilitySlice.gameOver();
             //设置最高分
             mainAbilitySlice.showTotalScore(preferences.getInt("totalScore", 0));
         }

@@ -53,51 +53,51 @@ public class CardView extends StackLayout {
         ShapeElement element = new ShapeElement();
        switch (num){
            case 0:
-               element.setRgbColor(new RgbColor(198, 187, 183));
+               element.setRgbColor(new RgbColor(205, 193, 180));
                break;
            case 2:
-               lable.setTextColor(Color.RED);
+               lable.setTextColor(new Color(Color.getIntColor("#645B52")));
                element.setRgbColor(new RgbColor(238,228,218));
                break;
            case 4:
-               lable.setTextColor(Color.BLACK);
+               lable.setTextColor(new Color(Color.getIntColor("#645B52")));
                element.setRgbColor(new RgbColor(237,224,200));
                break;
            case 8:
-               lable.setTextColor(Color.BLUE);
+               lable.setTextColor(new Color(Color.getIntColor("#FFFFFF")));
                element.setRgbColor(new RgbColor(242,177,121));
                break;
            case 16:
-               lable.setTextColor(Color.CYAN);
+               lable.setTextColor(new Color(Color.getIntColor("#FFFFFF")));
                element.setRgbColor(new RgbColor(245,149,99));
                break;
            case 32:
-               lable.setTextColor(Color.DKGRAY);
+               lable.setTextColor(new Color(Color.getIntColor("#FFFFFF")));
                element.setRgbColor(new RgbColor(246,124,95));
                break;
            case 64:
-               lable.setTextColor(Color.YELLOW);
+               lable.setTextColor(new Color(Color.getIntColor("#FFFFFF")));
                element.setRgbColor(new RgbColor(246,94,59));
                break;
            case 128:
-               lable.setTextColor(Color.GREEN);
+               lable.setTextColor(new Color(Color.getIntColor("#FFFFFF")));
                element.setRgbColor(new RgbColor(237,207,114));
                break;
            case 256:
-               lable.setTextColor(Color.LTGRAY);
+               lable.setTextColor(new Color(Color.getIntColor("#FFFFFF")));
                element.setRgbColor(new RgbColor(237,204,97));
                break;
            case 512:
-               lable.setTextColor(Color.WHITE);
-               element.setRgbColor(new RgbColor(237,200,80));
+               lable.setTextColor(new Color(Color.getIntColor("#FFFFFF")));
+               element.setRgbColor(new RgbColor(153,204,0));
                break;
            case 1024:
-               lable.setTextColor(Color.YELLOW);
-               element.setRgbColor(new RgbColor(237,197,63));
+               lable.setTextColor(new Color(Color.getIntColor("#FFFFFF")));
+               element.setRgbColor(new RgbColor(131,175,155));
                break;
            case 2048:
-               lable.setTextColor(Color.RED);
-               element.setRgbColor(new RgbColor(237,194,46));
+               lable.setTextColor(new Color(Color.getIntColor("#FFFFFF")));
+               element.setRgbColor(new RgbColor(0,153,204));
                break;
        }
 

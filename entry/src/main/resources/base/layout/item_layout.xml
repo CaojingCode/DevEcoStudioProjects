@@ -11,4 +11,5 @@
             ohos:text="我是item"
             ohos:text_size="20vp"
             />
+
 </DirectionalLayout>

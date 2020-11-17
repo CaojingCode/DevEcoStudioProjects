@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<DirectionalLayout xmlns:ohos="http://schemas.huawei.com/res/ohos"
-                   ohos:width="match_parent"
-                   ohos:height="match_parent"
-                   ohos:orientation="horizontal"
-        >
+<DirectionalLayout
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:height="match_parent"
+    ohos:width="match_parent"
+    ohos:alignment="center"
+    ohos:orientation="vertical">
+
+    <DirectionalLayout
+        ohos:height="match_content"
+        ohos:width="match_content"
+        ohos:alignment="center"
+        ohos:orientation="horizontal">
+
+        <Text
+            ohos:height="match_content"
+            ohos:width="match_content"
+            ohos:text="分数：0"/>
+
+        <Text
+            ohos:height="match_content"
+            ohos:width="match_content"
+            ohos:text="最高分：0"/>
+    </DirectionalLayout>
+
+    <com.caojing.harmonyfrist.GameView
+        ohos:height="500px"
+        ohos:width="500px"/>
 
 
+    <DirectionalLayout
+        ohos:height="match_content"
+        ohos:width="match_content"
+        ohos:alignment="center"
+        ohos:orientation="horizontal">
 
+        <Text
+            ohos:height="match_content"
+            ohos:width="match_content"
+            ohos:text="重新开始"/>
 
+        <Text
+            ohos:height="match_content"
+            ohos:width="match_content"
+            ohos:text="悔棋"/>
+    </DirectionalLayout>
 </DirectionalLayout>

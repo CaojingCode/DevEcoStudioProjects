@@ -25,6 +25,11 @@ public class ListProvider extends RecycleItemProvider {
     }
 
     @Override
+    public Object getItem(int i) {
+        return data.get(i);
+    }
+
+    @Override
     public long getItemId(int i) {
         return i;
     }
