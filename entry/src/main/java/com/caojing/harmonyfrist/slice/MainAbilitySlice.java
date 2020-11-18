@@ -1,15 +1,12 @@
 package com.caojing.harmonyfrist.slice;
 
-import com.caojing.harmonyfrist.AnimLayer;
-import com.caojing.harmonyfrist.GameView;
-import com.caojing.harmonyfrist.ResourceTable;
+import com.caojing.harmonyfrist.view.AnimLayer;
+import com.caojing.harmonyfrist.view.GameView;
 import ohos.aafwk.ability.AbilitySlice;
 import ohos.aafwk.content.Intent;
-
+import ohos.agp.colors.RgbColor;
 import ohos.agp.components.*;
 import ohos.agp.components.DirectionalLayout.LayoutConfig;
-import ohos.agp.colors.RgbColor;
-import ohos.agp.components.element.Element;
 import ohos.agp.components.element.ShapeElement;
 import ohos.agp.utils.Color;
 import ohos.agp.utils.LayoutAlignment;
@@ -32,7 +29,7 @@ public class MainAbilitySlice extends AbilitySlice {
     @Override
     public void onStart(Intent intent) {
         super.onStart(intent);
-        //设置跟布局，全屏铺满，剧中，背景等
+        //设置根布局，全屏铺满，剧中，背景等
         LayoutConfig config = new LayoutConfig(LayoutConfig.MATCH_PARENT, LayoutConfig.MATCH_PARENT);
         myLayout.setLayoutConfig(config);
         myLayout.setAlignment(LayoutAlignment.CENTER);

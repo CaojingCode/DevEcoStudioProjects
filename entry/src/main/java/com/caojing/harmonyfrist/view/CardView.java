@@ -1,8 +1,5 @@
-package com.caojing.harmonyfrist;
+package com.caojing.harmonyfrist.view;
 
-import ohos.aafwk.ability.Ability;
-import ohos.agp.animation.Animator;
-import ohos.agp.animation.AnimatorValue;
 import ohos.agp.colors.RgbColor;
 import ohos.agp.components.AttrSet;
 import ohos.agp.components.Component;
@@ -13,8 +10,9 @@ import ohos.agp.utils.Color;
 import ohos.agp.utils.TextAlignment;
 import ohos.app.Context;
 
-import java.util.Random;
-
+/**
+ * 自定义卡片视图
+ */
 public class CardView extends StackLayout {
     private int num = 0;
 
@@ -49,6 +47,10 @@ public class CardView extends StackLayout {
         setNum(0);
     }
 
+    /**
+     * 设置卡片文字和背景颜色
+     * @param num
+     */
     void setTextColor(int num){
         ShapeElement element = new ShapeElement();
        switch (num){
@@ -104,6 +106,10 @@ public class CardView extends StackLayout {
         lable.setBackground(element);
     }
 
+    /**
+     * 获得卡片数字
+     * @return
+     */
     public int getNum() {
         return num;
     }

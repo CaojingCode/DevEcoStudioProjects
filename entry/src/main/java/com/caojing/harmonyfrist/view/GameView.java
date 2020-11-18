@@ -1,13 +1,12 @@
-package com.caojing.harmonyfrist;
+package com.caojing.harmonyfrist.view;
 
+import com.caojing.harmonyfrist.entity.MPoint;
 import com.caojing.harmonyfrist.slice.MainAbilitySlice;
 import ohos.agp.colors.RgbColor;
 import ohos.agp.components.AttrSet;
 import ohos.agp.components.Component;
-import ohos.agp.components.DragInfo;
 import ohos.agp.components.TableLayout;
 import ohos.agp.components.element.ShapeElement;
-import ohos.agp.window.dialog.ToastDialog;
 import ohos.app.Context;
 import ohos.data.DatabaseHelper;
 import ohos.data.preferences.Preferences;
@@ -20,11 +19,16 @@ import java.util.List;
 
 public class GameView extends TableLayout {
     MainAbilitySlice mainAbilitySlice;
+    //标示是否可以悔棋，默认不能悔棋，滑动一次后才能悔棋
     boolean isCanRetract = false;
 
+    //记录卡片view的二维数组
     private CardView[][] cardMap = new CardView[4][4];
+
+    //记录上一步卡片位置的二维数组
     private int[][] retractMap = new int[4][4];
 
+    //记录所有空点的集合，随机数只能添加在空点内
     private List<MPoint> emptyPoints = new ArrayList<>();
 
     private int score = 0;
@@ -69,6 +73,7 @@ public class GameView extends TableLayout {
         addCards();
         startGame();
 
+        //设置触摸监听事件
         setTouchEventListener(new TouchEventListener() {
             private float starX, starY, offsetX, offsetY;
 
@@ -77,25 +82,29 @@ public class GameView extends TableLayout {
                 MmiPoint point = touchEvent.getPointerScreenPosition(0);
                 switch (touchEvent.getAction()) {
                     case TouchEvent.PRIMARY_POINT_DOWN:
-                        starX = point.getX();
-                        starY = point.getY();
+                        starX = point.getX(); //记录手指按下的x点坐标
+                        starY = point.getY(); //记录手指按下的y点坐标
                         break;
                     case TouchEvent.PRIMARY_POINT_UP:
-                        offsetX = point.getX() - starX;
-                        offsetY = point.getY() - starY;
+                        offsetX = point.getX() - starX;//横向滑动距离
+                        offsetY = point.getY() - starY;//纵向滑动距离
                         if (Math.abs(offsetX) > Math.abs(offsetY)) {
                             if (offsetX < -5) {
+                                //左滑监听
                                 System.out.println("左边");
                                 swipeLeft();
                             } else if (offsetX > 5) {
+                                //右滑监听
                                 System.out.println("右边");
                                 swipeRight();
                             }
                         } else {
                             if (offsetY < -5) {
+                                //上滑监听
                                 System.out.println("上边");
                                 swipeUp();
                             } else if (offsetY > 5) {
+                                //下滑监听
                                 System.out.println("下边");
                                 swipeDown();
                             }
@@ -135,8 +144,10 @@ public class GameView extends TableLayout {
                 cardMap[x][y].setNum(0);
             }
         }
+        //添加两个随机数卡片
         addRoundNum();
         addRoundNum();
+        isCanRetract = false;
     }
 
 
@@ -172,6 +183,7 @@ public class GameView extends TableLayout {
                     if (cardMap[x1][y].getNum() > 0) {
                         //如果最左边没有数字时，则将右边数字移动到左边
                         if (cardMap[x][y].getNum() <= 0) {
+                            //添加移动动画，目前还有问题
 //                            mainAbilitySlice.getAnimLayer().createMoveAnim(cardMap[x1][y], cardMap[x][y], x1, x, y, y);
 
                             cardMap[x][y].setNum(cardMap[x1][y].getNum());
@@ -191,12 +203,14 @@ public class GameView extends TableLayout {
                 }
             }
         }
+        //如果存在合并或者移动，则添加一个随机棋子
         if (isMerge) addRoundNum();
     }
 
     private void swipeRight() {
         retractMap();
         //向右滑动
+        //是否存在合并或者移动
         boolean isMerge = false;
         for (int y = 0; y < 4; y++) {
             for (int x = 3; x >= 0; x--) {
@@ -223,11 +237,13 @@ public class GameView extends TableLayout {
                 }
             }
         }
+        //如果存在合并或者移动，则添加一个随机棋子
         if (isMerge) addRoundNum();
     }
 
     private void swipeUp() {
         retractMap();
+        //是否存在合并或者移动
         boolean isMerge = false;
         //向上滑动
         for (int x = 0; x < 4; x++) {
@@ -255,11 +271,13 @@ public class GameView extends TableLayout {
                 }
             }
         }
+        //如果存在合并或者移动，则添加一个随机棋子
         if (isMerge) addRoundNum();
     }
 
     private void swipeDown() {
         retractMap();
+        //是否存在合并或者移动
         boolean isMerge = false;
         //向下滑动
         for (int x = 0; x < 4; x++) {
@@ -287,6 +305,7 @@ public class GameView extends TableLayout {
                 }
             }
         }
+        //如果存在合并或者移动，则添加一个随机棋子
         if (isMerge) addRoundNum();
     }
 
@@ -303,7 +322,7 @@ public class GameView extends TableLayout {
                 retractMap[x][y] = cardMap[x][y].getNum();
             }
         }
-
+        //播放声音
         playSound();
     }
 
@@ -329,9 +348,8 @@ public class GameView extends TableLayout {
      * 否则游戏结束
      */
     private void gameOver() {
-        boolean isOver = true;
+        boolean isOver = true; //标示游戏是否结束，默认结束
         ALL:
-
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 if (cardMap[x][y].getNum() == 0 ||
@@ -346,7 +364,6 @@ public class GameView extends TableLayout {
         }
         if (isOver) {
             //游戏结束,保存总分
-
             DatabaseHelper databaseHelper = new DatabaseHelper(mainAbilitySlice); // context入参类型为ohos.app.Context。
             String fileName = "game"; // fileName表示文件名，其取值不能为空，也不能包含路径，默认存储目录可以通过context.getPreferencesDir()获取。
             Preferences preferences = databaseHelper.getPreferences(fileName);

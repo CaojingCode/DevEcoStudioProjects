@@ -19,7 +19,8 @@
       "video_support"
     ],
     "deviceType": [
-      "tv","car"
+      "tv",
+      "car"
     ],
     "distro": {
       "deliveryWithInstall": true,

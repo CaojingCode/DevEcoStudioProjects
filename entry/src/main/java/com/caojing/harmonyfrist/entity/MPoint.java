@@ -1,5 +1,8 @@
-package com.caojing.harmonyfrist;
+package com.caojing.harmonyfrist.entity;
 
+/**
+ * 记录卡片的位置实体
+ */
 public class MPoint {
 
   private   int x;

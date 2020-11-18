@@ -1,4 +1,4 @@
-package com.caojing.harmonyfrist;
+package com.caojing.harmonyfrist.view;
 
 import ohos.agp.animation.Animator;
 import ohos.agp.animation.AnimatorProperty;

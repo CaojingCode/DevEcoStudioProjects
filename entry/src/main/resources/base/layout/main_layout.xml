@@ -23,9 +23,9 @@
             ohos:text="最高分：0"/>
     </DirectionalLayout>
 
-    <com.caojing.harmonyfrist.GameView
-        ohos:height="500px"
-        ohos:width="500px"/>
+   <com.caojing.harmonyfrist.view.GameView
+       ohos:height="500"
+       ohos:width="500"/>
 
 
     <DirectionalLayout
