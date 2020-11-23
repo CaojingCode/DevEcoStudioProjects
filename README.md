@@ -1,11 +1,6 @@
 # DevEcoStudioProjects
 鸿蒙2048小游戏
----
-# 主题列表：juejin, github, smartblue, cyanosis, channing-cyan, fancy, hydrogen, condensed-night-purple, greenwillow, v-green
-# 贡献主题：https://github.com/xitu/juejin-markdown-themes
-theme: fancy
-highlight:
----
+
 2048大家应该都玩过，今天我们就来实现一个可以在鸿蒙系统上运行的2048小游戏，因为没有智慧屏，所以这里是在鸿蒙远程TV模拟器上运行的，大概长下面这样：
 ![鸿蒙TV模拟器](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6a5974665ba0410381cfb2dd537e3252~tplv-k3u1fbpfcp-watermark.image)
 在开始写代码之前，我们来分析下，要实现这个小游戏大概需要这么几步：
