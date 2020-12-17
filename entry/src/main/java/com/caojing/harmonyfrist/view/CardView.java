@@ -34,11 +34,17 @@ public class CardView extends StackLayout {
         initView();
     }
 
+    /**
+     * 初始化方法
+     * 在初始化方法中声明一个Text，设置Text的背景
+     */
     void initView() {
+        //声明一个Text
         lable = new Text(getContext());
-        lable.setTextSize(80);
+        lable.setTextSize(60);
         lable.setTextAlignment(TextAlignment.CENTER);
 
+        //设置textView的背景
         ShapeElement element = new ShapeElement();
         element.setRgbColor(new RgbColor(198, 187, 183));
         lable.setBackground(element);
@@ -102,7 +108,7 @@ public class CardView extends StackLayout {
                element.setRgbColor(new RgbColor(0,153,204));
                break;
        }
-
+        element.setCornerRadius(10);
         lable.setBackground(element);
     }
 

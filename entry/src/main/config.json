@@ -20,7 +20,7 @@
     ],
     "deviceType": [
       "tv",
-      "car"
+      "phone"
     ],
     "distro": {
       "deliveryWithInstall": true,

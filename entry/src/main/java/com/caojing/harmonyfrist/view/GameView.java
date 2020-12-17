@@ -68,6 +68,7 @@ public class GameView extends TableLayout {
         setColumnCount(4);
         ShapeElement element = new ShapeElement();
         element.setRgbColor(new RgbColor(185, 176, 160));
+        element.setCornerRadius(10);
         setBackground(element);
         setPadding(0, 0, 10, 10);
         addCards();
@@ -128,7 +129,7 @@ public class GameView extends TableLayout {
                 CardView cardView = new CardView(getContext());
                 cardView.setNum(0);
                 cardView.setPadding(10, 10, 0, 0);
-                addComponent(cardView, 180, 180);
+                addComponent(cardView, 160, 160);
                 cardMap[x][y] = cardView;
             }
         }
