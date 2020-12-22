@@ -40,7 +40,7 @@ public class MainAbilitySlice extends AbilitySlice {
         scoreBg.setRgbColor(new RgbColor(181, 171, 160));//分数背景
         scoreBg.setCornerRadius(20f);
 
-        myLayout.setAlignment(LayoutAlignment.HORIZONTAL_CENTER);
+        myLayout.setAlignment(LayoutAlignment.CENTER);
         myLayout.setLayoutConfig(configParent);
         myLayout.setBackground(element);
 
@@ -120,7 +120,7 @@ public class MainAbilitySlice extends AbilitySlice {
 
         GameView gameView = new GameView(this);
         gameView.setLayoutConfig(configContent);
-
+        gameView.setAlignmentType(LayoutAlignment.CENTER);
         stackLayout.addComponent(gameView);
 
 

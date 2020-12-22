@@ -39,7 +39,7 @@
             ]
           }
         ],
-        "orientation": "landscape",
+        "orientation": "portrait",
         "formEnabled": false,
         "name": "com.caojing.harmonyfrist.MainAbility",
         "icon": "$media:icon",

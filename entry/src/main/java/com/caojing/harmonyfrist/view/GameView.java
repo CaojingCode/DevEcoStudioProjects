@@ -129,7 +129,7 @@ public class GameView extends TableLayout {
                 CardView cardView = new CardView(getContext());
                 cardView.setNum(0);
                 cardView.setPadding(10, 10, 0, 0);
-                addComponent(cardView, 160, 160);
+                addComponent(cardView, 200, 200);
                 cardMap[x][y] = cardView;
             }
         }
